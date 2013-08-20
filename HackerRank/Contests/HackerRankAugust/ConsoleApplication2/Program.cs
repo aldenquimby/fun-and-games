@@ -8,9 +8,6 @@ namespace ConsoleApplication2
     {
         public static void Main(string[] args)
         {
-            DoTests();
-            return;
-
             var firstLine = Console.ReadLine() ?? "";
 
             var parts = firstLine.Split(' ');

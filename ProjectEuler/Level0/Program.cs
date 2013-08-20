@@ -6,7 +6,7 @@ namespace Level0
     {
         static void Main()
         {
-            Console.WriteLine(Problem3.Solve());
+            Console.WriteLine(Problem8.Solve());
             Console.ReadKey();
         }
     }
