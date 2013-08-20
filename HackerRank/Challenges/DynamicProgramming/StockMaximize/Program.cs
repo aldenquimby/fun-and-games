@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StockMaximize
 {
@@ -15,46 +13,52 @@ namespace StockMaximize
 
         static void Main()
         {
-            //TODO
+            var numTests = int.Parse(GetLine());
+
+            for (var i = 0; i < numTests; i++)
+            {
+                GetLine(); // don't care about n
+                var sharePrices = GetLine().Split(' ').Select(int.Parse).ToList();
+                Console.WriteLine(GetProfit(sharePrices));
+            }
         }
 
-        /*
-         * 
-    private static void MaxProfit(int[] sharePrice)
-    {
-        int firstDayPrice = sharePrice[0];
-        long[] optimizedProfit = new long[sharePrice.Length];
-        optimizedProfit[0] = 0;
-        for (int i = 1; i < sharePrice.Length; i++)
+        static long GetProfit(IList<int> sharePrices)
         {
-            if (sharePrice[i] > sharePrice[i - 1])
+            var profit = new long[sharePrices.Count];
+            
+            for (var i = 1; i < sharePrices.Count; i++)
             {
-                long cost = 0;
-                long totalShares = 0;
-                for (int j = i - 1; j >= 0; j--)
+                var price = sharePrices[i];
+
+                // if this price is less, profit is same as last profit
+                if (price <= sharePrices[i - 1])
                 {
-                    if (sharePrice[i] < sharePrice[j])
+                    profit[i] = profit[i - 1];
+                }
+                else
+                {
+                    long cost = 0;
+                    long totalShares = 0;
+                    
+                    // add share prices for all previous larger than this one
+                    for (var j = i - 1; j >= 0; j--)
                     {
-                        optimizedProfit[i] = optimizedProfit[j];
-                        break;
-                    }
-                    else
-                    {
-                        cost += sharePrice[j];
+                        if (price < sharePrices[j])
+                        {
+                            profit[i] = profit[j];
+                            break;
+                        }
+                        
+                        cost += sharePrices[j];
                         totalShares++;
                     }
-                }
-                optimizedProfit[i] += sharePrice[i] * totalShares - cost;
 
+                    profit[i] += price * totalShares - cost;
+                }
             }
-            else
-            {
-                optimizedProfit[i] = optimizedProfit[i - 1];
-            }
+
+            return profit.Max();
         }
-        Array.Sort(optimizedProfit);
-        Console.WriteLine(optimizedProfit[optimizedProfit.Length - 1]);
-    }
-         */
     }
 }
